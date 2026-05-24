@@ -10,7 +10,7 @@
 | **Severity** | Medium (CVSS 3.0: 5.4) |
 | **CVSS Vector** | `CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N` |
 | **Category** | CORS Misconfiguration |
-| **CWE** | CWE-942: Permissive Cross-domain Policy with Untrusted Domains |
+| **CWE** | CWE-346: Origin Validation Error |
 | **Affected** | `api.ripiotrade.co/v4/*` — all endpoints |
 | **Date Discovered** | 2026-05-24 |
 | **Researcher** | eno |
