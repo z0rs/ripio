@@ -1,4 +1,4 @@
-# Ripio Web3 Smart Contract Security Report
+# Ripio WFIAT & Bridge Smart Contract Audit
 
 ## Program Information
 
@@ -9,7 +9,6 @@
 | **Chains in scope** | Ethereum (1), Base (8453), World Chain (480), Gnosis (100), BSC (56), Polygon (137) |
 | **Testing chain** | Ethereum Mainnet (forked via Foundry/Anvil) |
 | **Date** | 2026-05-24 |
-| **Researcher** | eno |
 | **Testing approach** | Source code review + On-chain state analysis + Local fork PoC |
 
 ---
@@ -84,10 +83,10 @@ forge-std       |  openzeppelin-contracts v5.x
 
 | Contract | DEFAULT_ADMIN | MINTER_ROLE | BRIDGE_OPERATOR_ROLE | FEE_MANAGER_ROLE |
 |----------|:------------:|:-----------:|:--------------------:|:----------------:|
-| WFIAT Token | ✅ | ✅ | — | — |
-| BridgeDeposit | ✅ | — | ✅ | ✅ |
-| LimitedMinter | ✅ | ✅ | — | — |
-| LimitedMinterBridge | ✅ | ✅ | — | — |
+| WFIAT Token | Yes | Yes | — | — |
+| BridgeDeposit | Yes | — | Yes | Yes |
+| LimitedMinter | Yes | Yes | — | — |
+| LimitedMinterBridge | Yes | Yes | — | — |
 
 ### 2.3 On-Chain Role Holders (Ethereum Mainnet)
 
@@ -123,8 +122,8 @@ forge-std       |  openzeppelin-contracts v5.x
 | Implementation | `0xBa0030Bba7112171A8A5bCc417ee1994051321b9` |
 | Proxy type | UUPS (admin: `0x0`) |
 | Total supply | `3,029,278,066.599 wARS` |
-| MINTER_ROLE on LimitedMinter | ✅ true |
-| MINTER_ROLE on LimitedMinterBridge | ✅ true |
+| MINTER_ROLE on LimitedMinter | true |
+| MINTER_ROLE on LimitedMinterBridge | true |
 | PAUSER_ROLE on both | ❌ false |
 | UPGRADER_ROLE on both | ❌ false |
 
@@ -249,8 +248,8 @@ forge test --match-contract ExploitDemoTest -vvvv
 
 ```
 [PASS] testBothMintersHaveRole()
-  ├─ wARS.hasRole(MINTER_ROLE, LimitedMinter)       → true ✅
-  └─ wARS.hasRole(MINTER_ROLE, LimitedMinterBridge) → true ✅
+  ├─ wARS.hasRole(MINTER_ROLE, LimitedMinter)       → true
+  └─ wARS.hasRole(MINTER_ROLE, LimitedMinterBridge) → true
 
 [PASS] testDualMintDailyLimitBypass()
   ├─ LimitedMinter daily limit:      700,000,000,000,000,000,000,000,000
@@ -379,16 +378,16 @@ Each of the following attack vectors was reviewed against the source code and co
 
 | # | Attack Vector | Status | Reason |
 |---|--------------|--------|--------|
-| 1 | **Re-initialization (UUPS)** | ✅ Safe | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier on `initialize()` |
-| 2 | **Cross-chain deposit replay** | ✅ Safe | Composite idempotency key: `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
-| 3 | **Reentrancy on bridge** | ✅ Safe | `nonReentrant` on `depositForBridge()`, `fulfillBridgeMint()`, `mintTo()`, `mint()` |
-| 4 | **Storage collision (upgrade)** | ✅ Safe | OZ v5 ERC-7201 namespaced storage layout |
-| 5 | **ERC-20 Permit replay** | ✅ Safe | Standard EIP-2612 with nonce tracking |
-| 6 | **Access control bypass** | ✅ Safe | All state-changing functions use `onlyRole()` modifier correctly |
-| 7 | **Fee logic underflow** | ✅ Safe | `route.fixedFee >= amount` check prevents subtraction underflow |
-| 8 | **Integer overflow** | ✅ Safe | Solidity 0.8.x built-in overflow protection |
-| 9 | **Race condition (daily limit)** | ✅ Safe | Limit checked and updated atomically in single transaction |
-| 10 | **Pausable bypass** | ✅ Safe | `whenNotPaused` on all critical functions |
+| 1 | **Re-initialization (UUPS)** | Safe | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier on `initialize()` |
+| 2 | **Cross-chain deposit replay** | Safe | Composite idempotency key: `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
+| 3 | **Reentrancy on bridge** | Safe | `nonReentrant` on `depositForBridge()`, `fulfillBridgeMint()`, `mintTo()`, `mint()` |
+| 4 | **Storage collision (upgrade)** | Safe | OZ v5 ERC-7201 namespaced storage layout |
+| 5 | **ERC-20 Permit replay** | Safe | Standard EIP-2612 with nonce tracking |
+| 6 | **Access control bypass** | Safe | All state-changing functions use `onlyRole()` modifier correctly |
+| 7 | **Fee logic underflow** | Safe | `route.fixedFee >= amount` check prevents subtraction underflow |
+| 8 | **Integer overflow** | Safe | Solidity 0.8.x built-in overflow protection |
+| 9 | **Race condition (daily limit)** | Safe | Limit checked and updated atomically in single transaction |
+| 10 | **Pausable bypass** | Safe | `whenNotPaused` on all critical functions |
 
 ### 5.1 Re-initialization Test
 ```
@@ -402,7 +401,7 @@ cast call wARS "initialize(address,address,address,address,string,string)" \
 depositForBridge(token, 100, 8453, to, id="0x1234") on ETH
 fulfillBridgeMint(token, to, 100, ETH_ID, txHash, id="0x1234") on Base
 fulfillBridgeMint(token, to, 100, ETH_ID, txHash, id="0x1234") on Base (replay)
-→ Error: BridgeAlreadyFulfilled()  ✅  (same chain replay blocked)
+→ Error: BridgeAlreadyFulfilled() (same chain replay blocked)
 ```
 
 ---
@@ -537,12 +536,12 @@ ripio-web3/
 │   ├── openzeppelin-contracts/
 │   └── openzeppelin-contracts-upgradeable/
 ├── src/contracts/
-│   ├── BridgeDeposit.sol          (compiles ✅)
-│   ├── LimitedMinter.sol          (compiles ✅)
-│   └── LimitedMinterBridge.sol    (compiles ✅)
+│   ├── BridgeDeposit.sol          (compiles)
+│   ├── LimitedMinter.sol          (compiles)
+│   └── LimitedMinterBridge.sol    (compiles)
 ├── test/exploits/
-│   ├── DualMinterBypass.t.sol     (4 tests ✅)
-│   └── ExploitDemo.t.sol          (1 test ✅)
+│   ├── DualMinterBypass.t.sol     (4 tests)
+│   └── ExploitDemo.t.sol          (1 test)
 └── reference/
     └── LatamStable.sol            (reference only)
 ```
@@ -558,7 +557,7 @@ forge test -vvvv
 Ran 5 tests across 2 test suites:
   DualMinterBypassTest: 4 passed, 0 failed
   ExploitDemoTest:      1 passed, 0 failed
-Total: 5 passed, 0 failed ✅
+Total: 5 passed, 0 failed
 ```
 
 ---
@@ -567,8 +566,8 @@ Total: 5 passed, 0 failed ✅
 
 | # | Finding | Severity | Status |
 |---|---------|----------|--------|
-| 1 | Dual Minter Daily Limit Bypass | Medium | PoC verified on-chain ✅ |
+| 1 | Dual Minter Daily Limit Bypass | Medium | PoC verified on-chain |
 | 2 | Inbound Source Chain Not Validated | Informational | Code review |
-| — | Re-initialization, replay, reentrancy, storage collision, permit, access control, fee logic, overflow, race condition, pausable bypass | — | All verified secure ✅ |
+| — | Re-initialization, replay, reentrancy, storage collision, permit, access control, fee logic, overflow, race condition, pausable bypass | — | All verified secure |
 
 **Overall Assessment**: The smart contracts are well-structured with proper use of OpenZeppelin v5 libraries, reentrancy guards, and access control. The primary finding involves independent daily limit tracking across two minter contracts — a business logic issue that could allow circumvention of the intended per-token minting cap.

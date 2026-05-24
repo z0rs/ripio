@@ -1,6 +1,6 @@
-# Ripio Web3 Smart Contract Security Review
+# Ripio WFIAT & Bridge Smart Contract Audit
 
-Bug bounty research on Ripio's WFIAT token contracts, cross-chain bridge infrastructure, and daily mint enforcement system.
+Bug bounty audit of Ripio's WFIAT token contracts, cross-chain bridge infrastructure, and daily mint enforcement system.
 
 ---
 
@@ -20,12 +20,12 @@ forge install
 forge test -vvv
 ```
 
-Output yang diharapkan:
+Expected output:
 ```
 Ran 8 tests across 4 test suites — 8 passed, 0 failed
 ```
 
-Kalau ada test fail karena RPC timeout, ganti RPC:
+If a test fails due to RPC timeout, switch RPC:
 ```bash
 ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 ```
