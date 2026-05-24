@@ -13,7 +13,6 @@
 | **CWE** | CWE-20: Improper Input Validation |
 | **Affected Chains** | Ethereum, Base, Polygon, BSC, Gnosis, World Chain |
 | **Date Discovered** | 2026-05-24 |
-| **Researcher** | eno |
 
 ---
 
