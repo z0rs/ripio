@@ -29,7 +29,6 @@
 | **Integrity (I)** | Low | L | Limited additional minting beyond per-chain cap via chain-hopping |
 | **Availability (A)** | None | N | Service not disrupted |
 
-**CVSS Base Score**: 2.4 (Low) — `CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N`
 
 ---
 

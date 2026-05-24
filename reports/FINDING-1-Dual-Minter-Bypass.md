@@ -29,12 +29,6 @@
 | **Integrity (I)** | High | H | Token supply integrity violated — unauthorized minting beyond daily cap |
 | **Availability (A)** | None | N | Service not disrupted |
 
-**CVSS Base Score**: 4.4 (Medium) — `CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:H/A:N`
-
-> **Alternate scenario**: If a single compromised admin (DEFAULT_ADMIN holder on both contracts) self-grants MINTER_ROLE, the complexity reduces to Low and privileges to Low:
-> `CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N` → **6.5 (Medium)**
->
-> `0x2b839174fe62466067c22e2a4c8054071F9D8D68` holds DEFAULT_ADMIN on both LimitedMinter and LimitedMinterBridge, making this alternate scenario operationally feasible.
 
 ---
 

@@ -29,7 +29,6 @@
 | **Integrity (I)** | Low | L | Could mint tokens from unregistered source chains (limited by daily cap + token registration) |
 | **Availability (A)** | None | N | Service not disrupted |
 
-**CVSS Base Score**: 2.2 (None/Informational) — `CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N`
 
 ---
 

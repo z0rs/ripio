@@ -29,7 +29,6 @@
 | **Integrity (I)** | Low | L | Token supply reduced without corresponding mint on destination |
 | **Availability (A)** | Low | L | Users lose access to burned tokens (permanent loss) |
 
-**CVSS Base Score**: 2.3 (Low) — `CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:L`
 
 ---
 

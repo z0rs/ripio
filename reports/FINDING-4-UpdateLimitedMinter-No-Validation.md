@@ -29,7 +29,6 @@
 | **Integrity (I)** | Low | L | Bridge mint operations fail, but deposits (burns) still succeed |
 | **Availability (A)** | Low | L | Inbound bridge fulfillments become unavailable |
 
-**CVSS Base Score**: 2.3 (Low) — `CVSS:3.0/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:L/A:L`
 
 ---
 
