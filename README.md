@@ -238,8 +238,8 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 │    ▼                                                                     │
 │  WFIAT Token.mint(mintDestination, amount)                              │
 │                                                                         │
-│  ⚠️ Neither contract checks the other's mintedPerDay                    │
-│  ⚠️ Combined effective daily limit = limit_LM + limit_LMB               │
+│  [WARN] ️ Neither contract checks the other's mintedPerDay                    │
+│  [WARN] ️ Combined effective daily limit = limit_LM + limit_LMB               │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -333,7 +333,7 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 | wCOP  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
 | wCLP  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
 | wPEN  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
-| USDar |    ❌    |  N/A  |  N/A  |  N/A  |  N/A   |  N/A  |
+| USDar |    No    |  N/A  |  N/A  |  N/A  |  N/A   |  N/A  |
 
 > Yes = confirmed on-chain, Yes\* = same contract BYTECODE via CREATE2 (identical logic)
 

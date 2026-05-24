@@ -70,8 +70,8 @@ function fulfillBridgeMint(
 {
     // Only blocks same-chain fulfillment:
     if (sourceChainId == block.chainid) revert InvalidSourceChain();
-    // ❌ No check: is sourceChainId in acceptedInboundChains?
-    // ❌ No check: does routeConfigs[token][sourceChainId] exist inbound?
+    // No No check: is sourceChainId in acceptedInboundChains?
+    // No No check: does routeConfigs[token][sourceChainId] exist inbound?
 
     bytes32 fulfillmentKey = keccak256(
         abi.encodePacked(sourceChainId, sourceTxHash, sourceDepositId)
@@ -96,7 +96,7 @@ function depositForBridge(
 {
     // ...
     RouteConfig memory route = routeConfigs[token][destChainId];
-    if (!route.enabled) revert InvalidRoute();    // ✅ validated
+    if (!route.enabled) revert InvalidRoute();    // (Yes) validated
     // ...
 }
 ```
@@ -111,7 +111,7 @@ function setBridgeRoutes(
 {
     for (uint256 i = 0; i < destChainIds.length; ) {
         if (destChainIds[i] == block.chainid) revert InvalidSourceChain();
-        routeConfigs[token][destChainIds[i]] = RouteConfig({  // ✅ outbound only
+        routeConfigs[token][destChainIds[i]] = RouteConfig({  // (Yes) outbound only
             enabled: enabled, fixedFee: fixedFee
         });
         unchecked { ++i; }
@@ -123,10 +123,10 @@ function setBridgeRoutes(
 
 | Check | Outbound (`depositForBridge`) | Inbound (`fulfillBridgeMint`) |
 |-------|:---:|:---:|
-| Route enabled? | ✅ `routeConfigs[token][destChainId].enabled` | ❌ None |
-| Not same chain? | ✅ `destChainId != block.chainid` | ✅ `sourceChainId != block.chainid` |
-| Token registered? | N/A | ✅ `onlyMintableToken(token)` |
-| Caller authorized? | ✅ Anyone (user-facing) | ✅ `onlyRole(BRIDGE_OPERATOR_ROLE)` |
+| Route enabled? | (Yes) `routeConfigs[token][destChainId].enabled` | No None |
+| Not same chain? | (Yes) `destChainId != block.chainid` | (Yes) `sourceChainId != block.chainid` |
+| Token registered? | N/A | (Yes) `onlyMintableToken(token)` |
+| Caller authorized? | (Yes) Anyone (user-facing) | (Yes) `onlyRole(BRIDGE_OPERATOR_ROLE)` |
 
 ### On-Chain Evidence
 

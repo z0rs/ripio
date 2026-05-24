@@ -51,13 +51,13 @@ The Ripio WFIAT token system uses two separate minter contracts — `LimitedMint
 
 | Token | Address (Ethereum) | LimitedMinter | LimitedMinterBridge | Dual-Mint? |
 |-------|-------------------|:-------------:|:-------------------:|:----------:|
-| wARS | `0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D` | ✅ MINTER | ✅ MINTER | ✅ |
-| wMXN | `0x337E7456B420bD3481e7FA61fA9850343d610d34` | ✅ MINTER | ✅ MINTER | ✅ |
-| wBRL | `0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0` | ✅ MINTER | ✅ MINTER | ✅ |
-| wCOP | `0x8a1D45e102e886510e891d2Ec656a708991e2D76` | ✅ MINTER | ✅ MINTER | ✅ |
-| wCLP | `0x61D450a098b6a7f69fC4b98CE68198fe59768651` | ✅ MINTER | ✅ MINTER | ✅ |
-| wPEN | `0x4F34c8b3b5FB6D98Da888F0feA543d4d9C9F2eBE` | ✅ MINTER | ✅ MINTER | ✅ |
-| USDar | `0xdcC340132740AD57E9Fc90C9BD08B00dBbc87986` | ✅ MINTER | ❌ | — |
+| wARS | `0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D` | Yes MINTER | Yes MINTER | Yes |
+| wMXN | `0x337E7456B420bD3481e7FA61fA9850343d610d34` | Yes MINTER | Yes MINTER | Yes |
+| wBRL | `0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0` | Yes MINTER | Yes MINTER | Yes |
+| wCOP | `0x8a1D45e102e886510e891d2Ec656a708991e2D76` | Yes MINTER | Yes MINTER | Yes |
+| wCLP | `0x61D450a098b6a7f69fC4b98CE68198fe59768651` | Yes MINTER | Yes MINTER | Yes |
+| wPEN | `0x4F34c8b3b5FB6D98Da888F0feA543d4d9C9F2eBE` | Yes MINTER | Yes MINTER | Yes |
+| USDar | `0xdcC340132740AD57E9Fc90C9BD08B00dBbc87986` | Yes MINTER | No | — |
 
 > **Note**: USDar is Ethereum-only and does not use the bridge, so `LimitedMinterBridge` has no `MINTER_ROLE` on it. The vulnerability applies to the **6 cross-chain WFIAT tokens**.
 
