@@ -528,7 +528,7 @@ Per the program's hard exclusions, the following are NOT considered vulnerabilit
 
 ### 9.1 Project Structure
 ```
-ripio-web3/
+ripio/
 ├── REPORT.md
 ├── foundry.toml
 ├── lib/
@@ -548,7 +548,7 @@ ripio-web3/
 
 ### 9.2 Running Tests
 ```bash
-cd ripio-web3
+cd ripio
 forge test -vvvv
 ```
 

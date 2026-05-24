@@ -310,7 +310,7 @@ contract DualMinterBypassTest is Test {
 ### Running the PoC
 
 ```bash
-cd ripio-web3
+cd ripio
 forge test --match-contract DualMinterBypassTest -vvvv
 ```
 
@@ -451,5 +451,5 @@ Set `dailyMaxMint` on **both** contracts to half the intended global limit. Whil
 - Source: [Blockscout - BridgeDeposit](https://eth.blockscout.com/address/0x465e642387d3d73a57CDc1368fFA53A800bA5D47)
 - Source: [Blockscout - LimitedMinter](https://eth.blockscout.com/address/0xD168CFbBE260D48cd119497a9a2eE8482080C5E7)
 - Source: [Blockscout - LimitedMinterBridge](https://eth.blockscout.com/address/0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6)
-- PoC Repository: `ripio-web3/test/exploits/DualMinterBypass.t.sol`
-- PoC Repository: `ripio-web3/test/exploits/ExploitDemo.t.sol`
+- PoC Repository: `ripio/test/exploits/DualMinterBypass.t.sol`
+- PoC Repository: `ripio/test/exploits/ExploitDemo.t.sol`

@@ -241,4 +241,4 @@ function fulfillBridgeMint(...) external ... {
 
 - Source: [Blockscout - BridgeDeposit](https://eth.blockscout.com/address/0x465e642387d3d73a57CDc1368fFA53A800bA5D47)
 - Transaction: [Etherscan](https://etherscan.io/tx/0x9c973c05bd30261ef5d33c52e7008811dd1112f56559fef56259f64eb2b9692b)
-- PoC Repository: `ripio-web3/src/contracts/BridgeDeposit.sol:379-421`
+- PoC Repository: `ripio/src/contracts/BridgeDeposit.sol:379-421`
