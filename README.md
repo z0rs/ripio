@@ -22,7 +22,7 @@ forge test -vvv
 
 Output yang diharapkan:
 ```
-Ran 8 tests across 4 test suites — 8 passed, 0 failed ✅
+Ran 8 tests across 4 test suites — 8 passed, 0 failed
 ```
 
 Kalau ada test fail karena RPC timeout, ganti RPC:
@@ -44,7 +44,6 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 8. [Project Structure](#project-structure)
 9. [Environment & Setup](#environment--setup)
 10. [On-Chain Queries](#on-chain-queries)
-11. [Researcher](#researcher)
 
 ---
 
@@ -95,7 +94,7 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 | **Severity** | **Medium (CVSS 3.0: 4.4)** |
 | **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:H/A:N` |
 | **CWE** | CWE-840: Business Logic Error |
-| **PoC** | ✅ `test/exploits/DualMinterBypass.t.sol` + `ExploitDemo.t.sol` |
+| **PoC** | Yes `test/exploits/DualMinterBypass.t.sol` + `ExploitDemo.t.sol` |
 | **Report** | [FINDING-1-Dual-Minter-Bypass.md](reports/FINDING-1-Dual-Minter-Bypass.md) |
 
 **Description**: `LimitedMinter` and `LimitedMinterBridge` both hold `MINTER_ROLE` on WFIAT tokens. Each contract independently tracks daily mint amounts via its own `mintedPerDay[token][day]` storage. No cross-contract validation exists. An entity with `MINTER_ROLE` on both contracts can mint `dailyLimit_A + dailyLimit_B` per day — bypassing the intended per-token daily cap.
@@ -130,7 +129,7 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 | **Severity** | **Low (CVSS 3.0: 2.4)** |
 | **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N` |
 | **CWE** | CWE-840: Business Logic Error |
-| **PoC** | ✅ `test/exploits/CrossChainDisparity.t.sol` |
+| **PoC** | Yes `test/exploits/CrossChainDisparity.t.sol` |
 | **Report** | [FINDING-3-Cross-Chain-Limit-Disparity.md](reports/FINDING-3-Cross-Chain-Limit-Disparity.md) |
 
 **Description**: Daily mint limits vary significantly across chains. Ethereum's LimitedMinter allows 700M/day while Base allows 100M/day. No global cross-chain mint cap exists. When combined with Finding #1, an entity can mint on the highest-limit chain and bridge tokens to lower-limit chains.
@@ -144,7 +143,7 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 | **Severity** | **Low (CVSS 3.0: 2.3)** |
 | **Vector** | `AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:L/A:L` |
 | **CWE** | CWE-20: Improper Input Validation |
-| **PoC** | ✅ `test/exploits/UpdateLimitedMinterPoC.t.sol` |
+| **PoC** | Yes `test/exploits/UpdateLimitedMinterPoC.t.sol` |
 | **Report** | [FINDING-4-UpdateLimitedMinter-No-Validation.md](reports/FINDING-4-UpdateLimitedMinter-No-Validation.md) |
 
 **Description**: `BridgeDeposit.updateLimitedMinter()` only validates `newMinter != address(0)`. It does not verify that the new address implements `ILimitedMinterBridge` correctly. If set to a broken contract, deposit burns succeed but fulfillments fail permanently. The `rescueTokens()` function cannot recover burned tokens.
@@ -247,8 +246,8 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 ┌──────────────────────────────────────────────────────────────────┐
 │ WFIAT Token (wARS proxy)                                         │
 │   MINTER_ROLE                                                     │
-│     ├── ✅ 0xD168... (LimitedMinter)                              │
-│     └── ✅ 0x4616... (LimitedMinterBridge)                        │
+│     ├── 0xD168... (LimitedMinter)                              │
+│     └── 0x4616... (LimitedMinterBridge)                        │
 │   PAUSER_ROLE      ── ??? (no minter has it)                     │
 │   UPGRADER_ROLE    ── ??? (no minter has it)                     │
 └──────────────────────────────────────────────────────────────────┘
@@ -325,15 +324,15 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 | Token | Ethereum | Base | Poly | BSC | Gnosis | World |
 |-------|:--------:|:----:|:----:|:---:|:------:|:-----:|
-| wARS | ✅ | ✅ | ✅* | ✅* | ✅* | ✅* |
-| wMXN | ✅ | ✅* | ✅* | ✅* | ✅* | ✅* |
-| wBRL | ✅ | ✅* | ✅* | ✅* | ✅* | ✅* |
-| wCOP | ✅ | ✅* | ✅* | ✅* | ✅* | ✅* |
-| wCLP | ✅ | ✅* | ✅* | ✅* | ✅* | ✅* |
-| wPEN | ✅ | ✅* | ✅* | ✅* | ✅* | ✅* |
+| wARS | Yes | Yes | Yes* | Yes* | Yes* | Yes* |
+| wMXN | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
+| wBRL | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
+| wCOP | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
+| wCLP | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
+| wPEN | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
 | USDar | ❌ | N/A | N/A | N/A | N/A | N/A |
 
-> ✅ = confirmed on-chain, ✅* = same contract BYTECODE via CREATE2 (identical logic)
+> Yes = confirmed on-chain, Yes* = same contract BYTECODE via CREATE2 (identical logic)
 
 ---
 
@@ -476,19 +475,19 @@ Each of the following attack vectors was systematically reviewed and confirmed n
 
 | # | Attack Vector | Status | Protection Mechanism |
 |---|--------------|:------:|----------------------|
-| 1 | UUPS Re-initialization | ✅ Safe | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier |
-| 2 | Cross-chain Deposit Replay | ✅ Safe | Composite idempotency key `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
-| 3 | Reentrancy | ✅ Safe | `nonReentrant` on `depositForBridge`, `fulfillBridgeMint`, `mintTo`, `mint` |
-| 4 | Storage Collision (Proxy) | ✅ Safe | OZ v5 ERC-7201 namespaced storage layout |
-| 5 | ERC-20 Permit Replay | ✅ Safe | Standard EIP-2612 with nonce tracking + `deadline` parameter |
-| 6 | Access Control Bypass | ✅ Safe | All state-changing functions use `onlyRole()` with correct role |
-| 7 | Fee Logic Underflow | ✅ Safe | `route.fixedFee >= amount` check before `amount - fee` subtraction |
-| 8 | Integer Overflow | ✅ Safe | Solidity 0.8.x built-in overflow protection |
-| 9 | Race Condition (Daily Limit) | ✅ Safe | Limit checked and updated atomically in single tx |
-| 10 | Pausable Bypass | ✅ Safe | `whenNotPaused` on all critical functions |
-| 11 | Permit Front-running | ✅ Safe | EIP-2612 `deadline` parameter prevents stale signatures |
-| 12 | abi.encodePacked Collision | ✅ Safe | All types in fulfillment key are fixed-size (32 bytes each) |
-| 13 | SELFDESTRUCT in Implementation | ✅ Safe | OZ v5 UUPS uses safe upgrade patterns |
+| 1 | UUPS Re-initialization | Safe | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier |
+| 2 | Cross-chain Deposit Replay | Safe | Composite idempotency key `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
+| 3 | Reentrancy | Safe | `nonReentrant` on `depositForBridge`, `fulfillBridgeMint`, `mintTo`, `mint` |
+| 4 | Storage Collision (Proxy) | Safe | OZ v5 ERC-7201 namespaced storage layout |
+| 5 | ERC-20 Permit Replay | Safe | Standard EIP-2612 with nonce tracking + `deadline` parameter |
+| 6 | Access Control Bypass | Safe | All state-changing functions use `onlyRole()` with correct role |
+| 7 | Fee Logic Underflow | Safe | `route.fixedFee >= amount` check before `amount - fee` subtraction |
+| 8 | Integer Overflow | Safe | Solidity 0.8.x built-in overflow protection |
+| 9 | Race Condition (Daily Limit) | Safe | Limit checked and updated atomically in single tx |
+| 10 | Pausable Bypass | Safe | `whenNotPaused` on all critical functions |
+| 11 | Permit Front-running | Safe | EIP-2612 `deadline` parameter prevents stale signatures |
+| 12 | abi.encodePacked Collision | Safe | All types in fulfillment key are fixed-size (32 bytes each) |
+| 13 | SELFDESTRUCT in Implementation | Safe | OZ v5 UUPS uses safe upgrade patterns |
 
 ---
 
@@ -506,19 +505,19 @@ ripio-web3/
 │   └── FINDING-5-Irreversible-Bridge-Burn.md           (197 lines, Low 2.3)
 ├── src/
 │   ├── contracts/
-│   │   ├── BridgeDeposit.sol                           (verified, compiles ✅)
-│   │   ├── LimitedMinter.sol                           (verified, compiles ✅)
-│   │   └── LimitedMinterBridge.sol                     (verified, compiles ✅)
+│   │   ├── BridgeDeposit.sol                           (verified, compiles)
+│   │   ├── LimitedMinter.sol                           (verified, compiles)
+│   │   └── LimitedMinterBridge.sol                     (verified, compiles)
 │   └── interfaces/
 │       ├── IWFIAT.sol                                  (WFIAT token interface)
 │       ├── IBridgeDeposit.sol                          (BridgeDeposit interface)
 │       └── ILimitedMinter.sol                          (LimitedMinter interface)
 ├── test/
 │   └── exploits/
-│       ├── DualMinterBypass.t.sol                      (4 tests ✅)
-│       ├── ExploitDemo.t.sol                           (1 test ✅)
-│       ├── CrossChainDisparity.t.sol                   (1 test ✅)
-│       └── UpdateLimitedMinterPoC.t.sol                (2 tests ✅)
+│       ├── DualMinterBypass.t.sol                      (4 tests)
+│       ├── ExploitDemo.t.sol                           (1 test)
+│       ├── CrossChainDisparity.t.sol                   (1 test)
+│       └── UpdateLimitedMinterPoC.t.sol                (2 tests)
 ├── reference/
 │   └── LatamStable.sol                                 (reference only, UUPS upgradeable)
 └── lib/
@@ -627,12 +626,3 @@ FEE_MANAGER_ROLE    = 0x6c0757dc3e6b28b2580c03fd0e816324c1ad0ea3e4c1c0f33b4eaead
 
 ---
 
-## Researcher
-
-| Field | Value |
-|-------|-------|
-| **Researcher** | eno |
-| **Program** | Ripio HackerOne |
-| **Date** | 2026-05-24 |
-| **Tools** | Foundry v1.7.1, cast, Blockscout API, Etherscan |
-| **Testing Chain** | Ethereum Mainnet (fork), Base (RPC query) |
