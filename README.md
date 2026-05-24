@@ -8,7 +8,7 @@ Bug bounty audit of Ripio's WFIAT token contracts, cross-chain bridge infrastruc
 
 ```bash
 # 1. Clone
-git clone <repo-url> && cd ripio-web3
+git clone <repo-url> && cd ripio
 
 # 2. Install Foundry (skip if already installed)
 curl -L https://foundry.paradigm.xyz | bash && source ~/.bashrc && foundryup
@@ -21,11 +21,13 @@ forge test -vvv
 ```
 
 Expected output:
+
 ```
 Ran 8 tests across 4 test suites — 8 passed, 0 failed
 ```
 
 If a test fails due to RPC timeout, switch RPC:
+
 ```bash
 ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 ```
@@ -51,35 +53,35 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Contracts (Ethereum Mainnet)
 
-| Contract | Address | Type | Bytes | Lines |
-|----------|---------|------|:-----:|:-----:|
-| LatamStable (wARS impl) | `0xBa0030Bba7112171A8A5bCc417ee1994051321b9` | UUPS Proxy Implementation | 8,746 | 65 |
-| BridgeDeposit | `0x465e642387d3d73a57CDc1368fFA53A800bA5D47` | Immutable | 6,924 | 463 |
-| LimitedMinter | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | Immutable | 5,472 | 192 |
-| LimitedMinterBridge | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` | Immutable | 4,894 | 229 |
+| Contract                | Address                                      | Type                      | Bytes | Lines |
+| ----------------------- | -------------------------------------------- | ------------------------- | :---: | :---: |
+| LatamStable (wARS impl) | `0xBa0030Bba7112171A8A5bCc417ee1994051321b9` | UUPS Proxy Implementation | 8,746 |  65   |
+| BridgeDeposit           | `0x465e642387d3d73a57CDc1368fFA53A800bA5D47` | Immutable                 | 6,924 |  463  |
+| LimitedMinter           | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | Immutable                 | 5,472 |  192  |
+| LimitedMinterBridge     | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` | Immutable                 | 4,894 |  229  |
 
 ### WFIAT Token Proxies (same addresses across all chains via CREATE2)
 
-| Token | Symbol | Address | Chains |
-|-------|--------|---------|--------|
-| Peso Argentino | wARS | `0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D` | 6 chains |
-| Peso Mexicano | wMXN | `0x337E7456B420bD3481e7FA61fA9850343d610d34` | 6 chains |
-| Real Brasileño | wBRL | `0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0` | 6 chains |
-| Peso Colombiano | wCOP | `0x8a1D45e102e886510e891d2Ec656a708991e2D76` | 6 chains |
-| Peso Chileno | wCLP | `0x61D450a098b6a7f69fC4b98CE68198fe59768651` | 6 chains |
-| Sol Peruano | wPEN | `0x4F34c8b3b5FB6D98Da888F0feA543d4d9C9F2eBE` | 6 chains |
-| Dólar Austral | USDar | `0xdcC340132740AD57E9Fc90C9BD08B00dBbc87986` | Ethereum only |
+| Token           | Symbol | Address                                      | Chains        |
+| --------------- | ------ | -------------------------------------------- | ------------- |
+| Peso Argentino  | wARS   | `0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D` | 6 chains      |
+| Peso Mexicano   | wMXN   | `0x337E7456B420bD3481e7FA61fA9850343d610d34` | 6 chains      |
+| Real Brasileño  | wBRL   | `0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0` | 6 chains      |
+| Peso Colombiano | wCOP   | `0x8a1D45e102e886510e891d2Ec656a708991e2D76` | 6 chains      |
+| Peso Chileno    | wCLP   | `0x61D450a098b6a7f69fC4b98CE68198fe59768651` | 6 chains      |
+| Sol Peruano     | wPEN   | `0x4F34c8b3b5FB6D98Da888F0feA543d4d9C9F2eBE` | 6 chains      |
+| Dólar Austral   | USDar  | `0xdcC340132740AD57E9Fc90C9BD08B00dBbc87986` | Ethereum only |
 
 ### Chains & Chain IDs (EIP-155)
 
-| Chain | ID | LimitedMinter Address | MinterBridge Address |
-|-------|:--:|----------------------|---------------------|
-| Ethereum | 1 | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| Base | 8453 | `0xf469eC9dEBf7F0adEBA4d1Db2FF5c70707bEeB30` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| World Chain | 480 | `0xDe7Ec97CFDeE9F20f9d256F4A0A0d694479fa2E0` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| Gnosis | 100 | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| BSC | 56 | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| Polygon | 137 | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| Chain       |  ID  | LimitedMinter Address                        | MinterBridge Address                         |
+| ----------- | :--: | -------------------------------------------- | -------------------------------------------- |
+| Ethereum    |  1   | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| Base        | 8453 | `0xf469eC9dEBf7F0adEBA4d1Db2FF5c70707bEeB30` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| World Chain | 480  | `0xDe7Ec97CFDeE9F20f9d256F4A0A0d694479fa2E0` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| Gnosis      | 100  | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| BSC         |  56  | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+| Polygon     | 137  | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
 
 > **Note**: Token contracts & BridgeDeposit/LimitedMinterBridge are same address across chains (CREATE2). LimitedMinter varies on Base and World Chain.
 
@@ -89,17 +91,18 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Finding #1 — Dual Minter Daily Limit Bypass
 
-| Field | Value |
-|-------|-------|
-| **Severity** | **Medium (CVSS 3.0: 4.4)** |
-| **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:H/A:N` |
-| **CWE** | CWE-840: Business Logic Error |
-| **PoC** | Yes `test/exploits/DualMinterBypass.t.sol` + `ExploitDemo.t.sol` |
-| **Report** | [FINDING-1-Dual-Minter-Bypass.md](reports/FINDING-1-Dual-Minter-Bypass.md) |
+| Field        | Value                                                                      |
+| ------------ | -------------------------------------------------------------------------- |
+| **Severity** | **Medium (CVSS 3.0: 4.4)**                                                 |
+| **Vector**   | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:H/A:N`                                      |
+| **CWE**      | CWE-840: Business Logic Error                                              |
+| **PoC**      | Yes `test/exploits/DualMinterBypass.t.sol` + `ExploitDemo.t.sol`           |
+| **Report**   | [FINDING-1-Dual-Minter-Bypass.md](reports/FINDING-1-Dual-Minter-Bypass.md) |
 
 **Description**: `LimitedMinter` and `LimitedMinterBridge` both hold `MINTER_ROLE` on WFIAT tokens. Each contract independently tracks daily mint amounts via its own `mintedPerDay[token][day]` storage. No cross-contract validation exists. An entity with `MINTER_ROLE` on both contracts can mint `dailyLimit_A + dailyLimit_B` per day — bypassing the intended per-token daily cap.
 
 **On-Chain Data (wARS, Ethereum)**:
+
 - LimitedMinter daily limit: `700,000,000,000,000,000,000,000,000` (~700M)
 - LimitedMinterBridge daily limit: `30,000,000,000,000,000,000,000,000` (~30M)
 - **Combined effective limit: 730,000,000** — bypasses highest single limit by 30M
@@ -110,13 +113,13 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Finding #2 — Inbound Source Chain Not Validated
 
-| Field | Value |
-|-------|-------|
-| **Severity** | **Informational (CVSS 3.0: 2.2)** |
-| **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N` |
-| **CWE** | CWE-20: Improper Input Validation |
-| **PoC** | — (code review) |
-| **Report** | [FINDING-2-Inbound-Source-Chain.md](reports/FINDING-2-Inbound-Source-Chain.md) |
+| Field        | Value                                                                          |
+| ------------ | ------------------------------------------------------------------------------ |
+| **Severity** | **Informational (CVSS 3.0: 2.2)**                                              |
+| **Vector**   | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N`                                          |
+| **CWE**      | CWE-20: Improper Input Validation                                              |
+| **PoC**      | — (code review)                                                                |
+| **Report**   | [FINDING-2-Inbound-Source-Chain.md](reports/FINDING-2-Inbound-Source-Chain.md) |
 
 **Description**: `BridgeDeposit.fulfillBridgeMint()` accepts a `sourceChainId` parameter but does not validate it against an inbound whitelist. Only outbound routes are configured via `setBridgeRoutes()`. This is a defense-in-depth gap — protected by `onlyRole(BRIDGE_OPERATOR_ROLE)`.
 
@@ -124,13 +127,13 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Finding #3 — Cross-Chain Daily Limit Disparity
 
-| Field | Value |
-|-------|-------|
-| **Severity** | **Low (CVSS 3.0: 2.4)** |
-| **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N` |
-| **CWE** | CWE-840: Business Logic Error |
-| **PoC** | Yes `test/exploits/CrossChainDisparity.t.sol` |
-| **Report** | [FINDING-3-Cross-Chain-Limit-Disparity.md](reports/FINDING-3-Cross-Chain-Limit-Disparity.md) |
+| Field        | Value                                                                                        |
+| ------------ | -------------------------------------------------------------------------------------------- |
+| **Severity** | **Low (CVSS 3.0: 2.4)**                                                                      |
+| **Vector**   | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:N`                                                        |
+| **CWE**      | CWE-840: Business Logic Error                                                                |
+| **PoC**      | Yes `test/exploits/CrossChainDisparity.t.sol`                                                |
+| **Report**   | [FINDING-3-Cross-Chain-Limit-Disparity.md](reports/FINDING-3-Cross-Chain-Limit-Disparity.md) |
 
 **Description**: Daily mint limits vary significantly across chains. Ethereum's LimitedMinter allows 700M/day while Base allows 100M/day. No global cross-chain mint cap exists. When combined with Finding #1, an entity can mint on the highest-limit chain and bridge tokens to lower-limit chains.
 
@@ -138,13 +141,13 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Finding #4 — updateLimitedMinter No Interface Validation
 
-| Field | Value |
-|-------|-------|
-| **Severity** | **Low (CVSS 3.0: 2.3)** |
-| **Vector** | `AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:L/A:L` |
-| **CWE** | CWE-20: Improper Input Validation |
-| **PoC** | Yes `test/exploits/UpdateLimitedMinterPoC.t.sol` |
-| **Report** | [FINDING-4-UpdateLimitedMinter-No-Validation.md](reports/FINDING-4-UpdateLimitedMinter-No-Validation.md) |
+| Field        | Value                                                                                                    |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| **Severity** | **Low (CVSS 3.0: 2.3)**                                                                                  |
+| **Vector**   | `AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:L/A:L`                                                                    |
+| **CWE**      | CWE-20: Improper Input Validation                                                                        |
+| **PoC**      | Yes `test/exploits/UpdateLimitedMinterPoC.t.sol`                                                         |
+| **Report**   | [FINDING-4-UpdateLimitedMinter-No-Validation.md](reports/FINDING-4-UpdateLimitedMinter-No-Validation.md) |
 
 **Description**: `BridgeDeposit.updateLimitedMinter()` only validates `newMinter != address(0)`. It does not verify that the new address implements `ILimitedMinterBridge` correctly. If set to a broken contract, deposit burns succeed but fulfillments fail permanently. The `rescueTokens()` function cannot recover burned tokens.
 
@@ -152,13 +155,13 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Finding #5 — Irreversible Bridge Burn
 
-| Field | Value |
-|-------|-------|
-| **Severity** | **Low (CVSS 3.0: 2.3)** |
-| **Vector** | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:L` |
-| **CWE** | CWE-840: Business Logic Error |
-| **PoC** | — (derived from Finding #4) |
-| **Report** | [FINDING-5-Irreversible-Bridge-Burn.md](reports/FINDING-5-Irreversible-Bridge-Burn.md) |
+| Field        | Value                                                                                  |
+| ------------ | -------------------------------------------------------------------------------------- |
+| **Severity** | **Low (CVSS 3.0: 2.3)**                                                                |
+| **Vector**   | `AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:L/A:L`                                                  |
+| **CWE**      | CWE-840: Business Logic Error                                                          |
+| **PoC**      | — (derived from Finding #4)                                                            |
+| **Report**   | [FINDING-5-Irreversible-Bridge-Burn.md](reports/FINDING-5-Irreversible-Bridge-Burn.md) |
 
 **Description**: `depositForBridge` burns tokens via `burnFrom()`, permanently reducing supply. There is no undo/refund mechanism. If the bridge fails on the destination chain, tokens are permanently lost. `rescueTokens()` only recovers tokens accidentally **sent** to the contract — not tokens **burned** through the bridge.
 
@@ -300,39 +303,39 @@ ETH_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY forge test -vvv
 
 ### Full Role Membership Table
 
-| Contract | Role | Member |
-|----------|------|--------|
-| **WFIAT (wARS)** | MINTER_ROLE | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` |
-| **WFIAT (wARS)** | MINTER_ROLE | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
-| | | |
-| **LimitedMinter** | DEFAULT_ADMIN | `0x466c02e2Cc67b81A696af5afdb61605C41Fe247B` |
-| **LimitedMinter** | DEFAULT_ADMIN | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
-| **LimitedMinter** | MINTER_ROLE | `0x466c02e2Cc67b81A696af5afdb61605C41Fe247B` |
-| **LimitedMinter** | MINTER_ROLE | `0x9E6475c19dA6C1E3eB8e9D408Cefd1fB511e1D8b` |
-| | | |
-| **LimitedMinterBridge** | DEFAULT_ADMIN | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
-| **LimitedMinterBridge** | DEFAULT_ADMIN | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
-| **LimitedMinterBridge** | MINTER_ROLE | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
-| **LimitedMinterBridge** | MINTER_ROLE | `0x465e642387d3d73a57CDc1368fFA53A800bA5D47` |
-| | | |
-| **BridgeDeposit** | DEFAULT_ADMIN | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
-| **BridgeDeposit** | DEFAULT_ADMIN | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
-| **BridgeDeposit** | BRIDGE_OPERATOR | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
-| **BridgeDeposit** | BRIDGE_OPERATOR | `0xbc924F707cA021f9B220088AFe56C85b9Cb43085` |
+| Contract                | Role            | Member                                       |
+| ----------------------- | --------------- | -------------------------------------------- |
+| **WFIAT (wARS)**        | MINTER_ROLE     | `0xD168CFbBE260D48cd119497a9a2eE8482080C5E7` |
+| **WFIAT (wARS)**        | MINTER_ROLE     | `0x46167cB034feC6ceC46CaeD4f61281f5Aa0Eb0e6` |
+|                         |                 |                                              |
+| **LimitedMinter**       | DEFAULT_ADMIN   | `0x466c02e2Cc67b81A696af5afdb61605C41Fe247B` |
+| **LimitedMinter**       | DEFAULT_ADMIN   | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
+| **LimitedMinter**       | MINTER_ROLE     | `0x466c02e2Cc67b81A696af5afdb61605C41Fe247B` |
+| **LimitedMinter**       | MINTER_ROLE     | `0x9E6475c19dA6C1E3eB8e9D408Cefd1fB511e1D8b` |
+|                         |                 |                                              |
+| **LimitedMinterBridge** | DEFAULT_ADMIN   | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
+| **LimitedMinterBridge** | DEFAULT_ADMIN   | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
+| **LimitedMinterBridge** | MINTER_ROLE     | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
+| **LimitedMinterBridge** | MINTER_ROLE     | `0x465e642387d3d73a57CDc1368fFA53A800bA5D47` |
+|                         |                 |                                              |
+| **BridgeDeposit**       | DEFAULT_ADMIN   | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
+| **BridgeDeposit**       | DEFAULT_ADMIN   | `0x2b839174fe62466067c22e2a4c8054071F9D8D68` |
+| **BridgeDeposit**       | BRIDGE_OPERATOR | `0x5CA3F8EEBa12D83408fc097c2dAd79212456F20F` |
+| **BridgeDeposit**       | BRIDGE_OPERATOR | `0xbc924F707cA021f9B220088AFe56C85b9Cb43085` |
 
 ### Dual-Mint Vulnerable Token Matrix
 
-| Token | Ethereum | Base | Poly | BSC | Gnosis | World |
-|-------|:--------:|:----:|:----:|:---:|:------:|:-----:|
-| wARS | Yes | Yes | Yes* | Yes* | Yes* | Yes* |
-| wMXN | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
-| wBRL | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
-| wCOP | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
-| wCLP | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
-| wPEN | Yes | Yes* | Yes* | Yes* | Yes* | Yes* |
-| USDar | ❌ | N/A | N/A | N/A | N/A | N/A |
+| Token | Ethereum | Base  | Poly  |  BSC  | Gnosis | World |
+| ----- | :------: | :---: | :---: | :---: | :----: | :---: |
+| wARS  |   Yes    |  Yes  | Yes\* | Yes\* | Yes\*  | Yes\* |
+| wMXN  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
+| wBRL  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
+| wCOP  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
+| wCLP  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
+| wPEN  |   Yes    | Yes\* | Yes\* | Yes\* | Yes\*  | Yes\* |
+| USDar |    ❌    |  N/A  |  N/A  |  N/A  |  N/A   |  N/A  |
 
-> Yes = confirmed on-chain, Yes* = same contract BYTECODE via CREATE2 (identical logic)
+> Yes = confirmed on-chain, Yes\* = same contract BYTECODE via CREATE2 (identical logic)
 
 ---
 
@@ -406,7 +409,7 @@ curl -L https://foundry.paradigm.xyz | bash
 foundryup
 
 # Clone project
-cd ripio-web3
+cd ripio
 forge install
 ```
 
@@ -473,28 +476,28 @@ cast call 0xD168CFbBE260D48cd119497a9a2eE8482080C5E7 \
 
 Each of the following attack vectors was systematically reviewed and confirmed not exploitable:
 
-| # | Attack Vector | Status | Protection Mechanism |
-|---|--------------|:------:|----------------------|
-| 1 | UUPS Re-initialization | Safe | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier |
-| 2 | Cross-chain Deposit Replay | Safe | Composite idempotency key `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
-| 3 | Reentrancy | Safe | `nonReentrant` on `depositForBridge`, `fulfillBridgeMint`, `mintTo`, `mint` |
-| 4 | Storage Collision (Proxy) | Safe | OZ v5 ERC-7201 namespaced storage layout |
-| 5 | ERC-20 Permit Replay | Safe | Standard EIP-2612 with nonce tracking + `deadline` parameter |
-| 6 | Access Control Bypass | Safe | All state-changing functions use `onlyRole()` with correct role |
-| 7 | Fee Logic Underflow | Safe | `route.fixedFee >= amount` check before `amount - fee` subtraction |
-| 8 | Integer Overflow | Safe | Solidity 0.8.x built-in overflow protection |
-| 9 | Race Condition (Daily Limit) | Safe | Limit checked and updated atomically in single tx |
-| 10 | Pausable Bypass | Safe | `whenNotPaused` on all critical functions |
-| 11 | Permit Front-running | Safe | EIP-2612 `deadline` parameter prevents stale signatures |
-| 12 | abi.encodePacked Collision | Safe | All types in fulfillment key are fixed-size (32 bytes each) |
-| 13 | SELFDESTRUCT in Implementation | Safe | OZ v5 UUPS uses safe upgrade patterns |
+| #   | Attack Vector                  | Status | Protection Mechanism                                                                |
+| --- | ------------------------------ | :----: | ----------------------------------------------------------------------------------- |
+| 1   | UUPS Re-initialization         |  Safe  | OZ v5 `_disableInitializers()` in constructor + `initializer` modifier              |
+| 2   | Cross-chain Deposit Replay     |  Safe  | Composite idempotency key `keccak256(sourceChainId, sourceTxHash, sourceDepositId)` |
+| 3   | Reentrancy                     |  Safe  | `nonReentrant` on `depositForBridge`, `fulfillBridgeMint`, `mintTo`, `mint`         |
+| 4   | Storage Collision (Proxy)      |  Safe  | OZ v5 ERC-7201 namespaced storage layout                                            |
+| 5   | ERC-20 Permit Replay           |  Safe  | Standard EIP-2612 with nonce tracking + `deadline` parameter                        |
+| 6   | Access Control Bypass          |  Safe  | All state-changing functions use `onlyRole()` with correct role                     |
+| 7   | Fee Logic Underflow            |  Safe  | `route.fixedFee >= amount` check before `amount - fee` subtraction                  |
+| 8   | Integer Overflow               |  Safe  | Solidity 0.8.x built-in overflow protection                                         |
+| 9   | Race Condition (Daily Limit)   |  Safe  | Limit checked and updated atomically in single tx                                   |
+| 10  | Pausable Bypass                |  Safe  | `whenNotPaused` on all critical functions                                           |
+| 11  | Permit Front-running           |  Safe  | EIP-2612 `deadline` parameter prevents stale signatures                             |
+| 12  | abi.encodePacked Collision     |  Safe  | All types in fulfillment key are fixed-size (32 bytes each)                         |
+| 13  | SELFDESTRUCT in Implementation |  Safe  | OZ v5 UUPS uses safe upgrade patterns                                               |
 
 ---
 
 ## Project Structure
 
 ```
-ripio-web3/
+ripio/
 ├── README.md                                          ← this file
 ├── foundry.toml                                       ← forge config (solc 0.8.27, remappings)
 ├── reports/
@@ -532,12 +535,12 @@ ripio-web3/
 
 ### Requirements
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Foundry (forge, cast, anvil, chisel) | v1.7.1 | Test framework, chain interaction, local node |
-| Solidity | 0.8.27 | Smart contract compilation |
-| OpenZeppelin Contracts | v5.x | Standard library dependencies |
-| forge-std | latest | Foundry test utilities |
+| Tool                                 | Version | Purpose                                       |
+| ------------------------------------ | ------- | --------------------------------------------- |
+| Foundry (forge, cast, anvil, chisel) | v1.7.1  | Test framework, chain interaction, local node |
+| Solidity                             | 0.8.27  | Smart contract compilation                    |
+| OpenZeppelin Contracts               | v5.x    | Standard library dependencies                 |
+| forge-std                            | latest  | Foundry test utilities                        |
 
 ### Installation
 
@@ -546,7 +549,7 @@ ripio-web3/
 curl -L https://foundry.paradigm.xyz | bash && foundryup
 
 # Clone and setup project
-cd ripio-web3
+cd ripio
 forge install
 
 # Verify build
@@ -625,4 +628,3 @@ FEE_MANAGER_ROLE    = 0x6c0757dc3e6b28b2580c03fd0e816324c1ad0ea3e4c1c0f33b4eaead
 ```
 
 ---
-
