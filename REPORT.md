@@ -124,8 +124,8 @@ forge-std       |  openzeppelin-contracts v5.x
 | Total supply | `3,029,278,066.599 wARS` |
 | MINTER_ROLE on LimitedMinter | true |
 | MINTER_ROLE on LimitedMinterBridge | true |
-| PAUSER_ROLE on both | ❌ false |
-| UPGRADER_ROLE on both | ❌ false |
+| PAUSER_ROLE on both | No false |
+| UPGRADER_ROLE on both | No false |
 
 ### 2.5 BridgeDeposit Configuration
 | Field | Value |
